@@ -12,6 +12,16 @@ namespace Reversi11
     {
         private bool koniecGry = false;
         ReversiSilnik silnik;
+
+        private Color kolorPodpowiedzi(int numerGracza)
+        { int r = (kolory[0].R + kolory[numerGracza].R) / 2;
+            int g = (kolory[0].G + kolory[numerGracza].G) / 2;
+            int b = (kolory[0].B + kolory[numerGracza].B) / 2;
+            return Color.FromArgb(r, g, b);
+        }
+
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             /*
