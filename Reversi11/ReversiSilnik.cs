@@ -28,18 +28,18 @@ namespace Reversi11
         }
 
 
-        public void ProponujNajlepszyRuch(out int najlepszyRuchPoziomo, out int najlepsyzRuchPionowo)
+        public void ProponujNajlepszyRuch(out int najlepszyRuchPoziomo, out int najlepszyRuchPionowo)
         {
             //deklaracja tablicy możliwych ruchow
-            List<MozliwyRuch> mozliweRuchy = new List<MozliwyRuch>;
+            List<MozliwyRuch> mozliweRuchy = new List<MozliwyRuch>();
             const int skokPriorytetu = PlanszaSzer * PlanszaWys;
 
             //poszukiwanie mozliwych ruchow
-            for (int poziomo=0; poziomo<PlanszaSzer; poziomo++)
-                for (int pionowo=0; pionowo<PlanszaWys; pionowo++)
-                    if (StanPola(poziomo, pionowo)==0)
+            for (int poziomo = 0; poziomo < PlanszaSzer; poziomo++)
+                for (int pionowo = 0; pionowo < PlanszaWys; pionowo++)
+                    if (StanPola(poziomo, pionowo) == 0)
                     { int priorytet = PolozKamien(poziomo, pionowo, true);
-                    if (priorytet>0)
+                        if (priorytet > 0)
                         { MozliwyRuch mr = new MozliwyRuch(poziomo, pionowo, priorytet);
 
                             //pole w rogu+
@@ -53,11 +53,43 @@ namespace Reversi11
                                         (mr.pionowo == 1 || mr.pionowo == PlanszaWys - 2))
                                 mr.priorytet -= skokPriorytetu * skokPriorytetu;
 
-                            //pole są
+                            //pole sąsiadujące z rogiem w pionie - 
+                            if ((mr.poziomo == 0 || mr.poziomo == PlanszaSzer - 1) &&
+                                        (mr.pionowo == 1 || mr.pionowo == PlanszaWys - 2))
+                                mr.priorytet -= skokPriorytetu * skokPriorytetu;
 
+                            //pole sąsiadujące z rogiem w poziomie - 
+                            if ((mr.poziomo == 1 || mr.poziomo == PlanszaSzer - 2) &&
+                                        (mr.pionowo == 0 || mr.pionowo == PlanszaWys - 1))
+                                mr.priorytet -= skokPriorytetu * skokPriorytetu;
+
+                            //pole na brzegu + 
+                            if ((mr.poziomo == 0 || mr.poziomo == PlanszaSzer - 1) &&
+                                        (mr.pionowo == 0 || mr.pionowo == PlanszaWys - 1))
+                                mr.priorytet += skokPriorytetu;
+
+                            //pole sąsiadujące z brzegiem - 
+                            if ((mr.poziomo == 1 || mr.poziomo == PlanszaSzer - 2) &&
+                                        (mr.pionowo == 1 || mr.pionowo == PlanszaWys - 2))
+                                mr.priorytet += skokPriorytetu;
+
+                            //dodanie do listy
+                            mozliweRuchy.Add(mr);
 
                         }
                     }
+
+            //wybór pola o największym priorytecie
+            if (mozliweRuchy.Count > 0)
+            { mozliweRuchy.Sort();
+                najlepszyRuchPoziomo = mozliweRuchy[0].poziomo;
+                najlepszyRuchPionowo = mozliweRuchy[0].pionowo;
+            }
+            else
+            {
+                throw new Exception("Lista ruchów jest pusta");
+            }
+        }
 
         public const int PlanszaSzer = 8;
         public const int PlanszaWys = 8;
