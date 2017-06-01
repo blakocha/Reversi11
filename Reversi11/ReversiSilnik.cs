@@ -27,6 +27,38 @@ namespace Reversi11
             }
         }
 
+
+        public void ProponujNajlepszyRuch(out int najlepszyRuchPoziomo, out int najlepsyzRuchPionowo)
+        {
+            //deklaracja tablicy możliwych ruchow
+            List<MozliwyRuch> mozliweRuchy = new List<MozliwyRuch>;
+            const int skokPriorytetu = PlanszaSzer * PlanszaWys;
+
+            //poszukiwanie mozliwych ruchow
+            for (int poziomo=0; poziomo<PlanszaSzer; poziomo++)
+                for (int pionowo=0; pionowo<PlanszaWys; pionowo++)
+                    if (StanPola(poziomo, pionowo)==0)
+                    { int priorytet = PolozKamien(poziomo, pionowo, true);
+                    if (priorytet>0)
+                        { MozliwyRuch mr = new MozliwyRuch(poziomo, pionowo, priorytet);
+
+                            //pole w rogu+
+
+                            if ((mr.poziomo == 0 || mr.poziomo == PlanszaSzer - 1) &&
+                                        (mr.pionowo == 0 || mr.pionowo == PlanszaWys - 1))
+                                mr.priorytet += skokPriorytetu * skokPriorytetu;
+
+                            //pole sąsiadujące z rogiem po przekątnych - 
+                            if ((mr.poziomo == 1 || mr.poziomo == PlanszaSzer - 2) &&
+                                        (mr.pionowo == 1 || mr.pionowo == PlanszaWys - 2))
+                                mr.priorytet -= skokPriorytetu * skokPriorytetu;
+
+                            //pole są
+
+
+                        }
+                    }
+
         public const int PlanszaSzer = 8;
         public const int PlanszaWys = 8;
         private int[,] plansza = new int[PlanszaSzer, PlanszaWys];
