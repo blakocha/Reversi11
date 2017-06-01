@@ -79,6 +79,7 @@ namespace Reversi11
                         }
                     }
 
+
             //wybór pola o największym priorytecie
             if (mozliweRuchy.Count > 0)
             { mozliweRuchy.Sort();
@@ -90,6 +91,7 @@ namespace Reversi11
                 throw new Exception("Lista ruchów jest pusta");
             }
         }
+
 
         public const int PlanszaSzer = 8;
         public const int PlanszaWys = 8;

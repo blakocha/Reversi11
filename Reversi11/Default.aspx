@@ -43,7 +43,7 @@
             <p />
             <asp:Button ID="Button1" runat="server" Text="Rozpocznij nową gre" OnClick="Button1_Click" />
             %nbsp;
-            <asp:Button ID="Button2" runat="server" Text="Wykonaj najlepszy ruch" />
+            <asp:Button ID="Button2" runat="server" Text="Wykonaj najlepszy ruch" OnClick="Button2_Click" />
             <p />
             Komunikaty:<br />
             <asp:Label ID="Label3" runat="server"></asp:Label>

@@ -20,6 +20,25 @@ namespace Reversi11
             return Color.FromArgb(r, g, b);
         }
 
+        private void zaznaczNajlepszyRuch()
+        {
+            if (koniecGry) return; 
+            try
+            {
+                int poziomo, pionowo;
+                silnik.ProponujNajlepszyRuch(out poziomo, out pionowo);
+                Plansza1.UstawKolorPola(poziomo, pionowo, kolorPodpowiedzi(silnik.NumerGraczaWykonujacegoNastepnyRuch));
+                Button2.Text = "Wykonaj najlepszy ruch (" + SymbolPola(poziomo, pionowo) + ")";
+
+            }
+
+            catch
+            {
+                if (silnik.IloscPolPustych > 1) WyswietlKomunikat("Gracz " +
+                      nazwyGraczy[silnik.NumerGraczaWykonujacegoNastepnyRuch] + " nie może wykonać ruchu", true);
+            }
+        }
+
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -141,6 +160,14 @@ namespace Reversi11
                     Plansza1.UstawKolorPola(i, j, kolory[stanPola]);
                     Plansza1.ZablokujPole(i, j, stanPola != 0);
                 }
+
+
+                if (CheckBox1.Checked) zaznaczNajlepszyRuch();
+                Label1.Text = "<font color=" + kolory[1].Name + ">Gracz" + nazwyGraczy[1] + "<br/>Ilość pól: " + silnik.IloscPolGracz1.ToString() + "</font";
+                Label2.Text = "<font color=" + kolory[2].Name + ">Gracz" + nazwyGraczy[2] + "<br/>Ilość pól: " + silnik.IloscPolGracz2.ToString() + "</font";
+                Button1.BackColor = kolory[0];
+                Button2.BackColor = kolory[0];
+                Label4.Text = "<font color=" + kolory[silnik.NumerGraczaWykonujacegoNastepnyRuch].Name + ">" + nazwyGraczy[silnik.NumerGraczaWykonujacegoNastepnyRuch] + "</font>";
             }
         }
 
@@ -167,5 +194,7 @@ namespace Reversi11
 
             WyswietlKomunikat("Gra rozpoczeta", false);
         }
+
+
     }
 }
